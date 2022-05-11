@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		15243C1E282A156800F7BBEE /* BHAudioStreamPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 15243C1D282A156800F7BBEE /* BHAudioStreamPlayer.m */; };
 		152465302727E17100390225 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1524652F2727E17100390225 /* AppDelegate.m */; };
 		152465332727E17100390225 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 152465322727E17100390225 /* SceneDelegate.m */; };
 		152465362727E17100390225 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 152465352727E17100390225 /* ViewController.m */; };
@@ -16,6 +17,11 @@
 		152465412727E17300390225 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 152465402727E17300390225 /* main.m */; };
 		1524654B2727E17400390225 /* AudioDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 1524654A2727E17400390225 /* AudioDemoTests.m */; };
 		152465562727E17400390225 /* AudioDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 152465552727E17400390225 /* AudioDemoUITests.m */; };
+		152465692727E1B800390225 /* BHAudioHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 152465682727E1B800390225 /* BHAudioHandle.m */; };
+		1524656F2727E1ED00390225 /* BHAudioCapture.m in Sources */ = {isa = PBXBuildFile; fileRef = 1524656E2727E1ED00390225 /* BHAudioCapture.m */; };
+		152465752727E20A00390225 /* BHAudioDecoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 152465742727E20A00390225 /* BHAudioDecoder.m */; };
+		1524657B2727E22100390225 /* BHAudioEncoder.m in Sources */ = {isa = PBXBuildFile; fileRef = 1524657A2727E22100390225 /* BHAudioEncoder.m */; };
+		152465842727FCA900390225 /* BHAudioConfigModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 152465832727FCA900390225 /* BHAudioConfigModel.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,6 +42,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		15243C1C282A156800F7BBEE /* BHAudioStreamPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BHAudioStreamPlayer.h; sourceTree = "<group>"; };
+		15243C1D282A156800F7BBEE /* BHAudioStreamPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BHAudioStreamPlayer.m; sourceTree = "<group>"; };
 		1524652B2727E17100390225 /* AudioDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AudioDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1524652E2727E17100390225 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		1524652F2727E17100390225 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -54,6 +62,16 @@
 		152465512727E17400390225 /* AudioDemoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioDemoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		152465552727E17400390225 /* AudioDemoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AudioDemoUITests.m; sourceTree = "<group>"; };
 		152465572727E17400390225 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		152465672727E1B800390225 /* BHAudioHandle.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BHAudioHandle.h; sourceTree = "<group>"; };
+		152465682727E1B800390225 /* BHAudioHandle.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BHAudioHandle.m; sourceTree = "<group>"; };
+		1524656D2727E1ED00390225 /* BHAudioCapture.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BHAudioCapture.h; sourceTree = "<group>"; };
+		1524656E2727E1ED00390225 /* BHAudioCapture.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BHAudioCapture.m; sourceTree = "<group>"; };
+		152465732727E20A00390225 /* BHAudioDecoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BHAudioDecoder.h; sourceTree = "<group>"; };
+		152465742727E20A00390225 /* BHAudioDecoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BHAudioDecoder.m; sourceTree = "<group>"; };
+		152465792727E22100390225 /* BHAudioEncoder.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BHAudioEncoder.h; sourceTree = "<group>"; };
+		1524657A2727E22100390225 /* BHAudioEncoder.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BHAudioEncoder.m; sourceTree = "<group>"; };
+		152465822727FCA900390225 /* BHAudioConfigModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BHAudioConfigModel.h; sourceTree = "<group>"; };
+		152465832727FCA900390225 /* BHAudioConfigModel.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BHAudioConfigModel.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +122,7 @@
 		1524652D2727E17100390225 /* AudioDemo */ = {
 			isa = PBXGroup;
 			children = (
+				152465662727E18D00390225 /* Audio */,
 				1524652E2727E17100390225 /* AppDelegate.h */,
 				1524652F2727E17100390225 /* AppDelegate.m */,
 				152465312727E17100390225 /* SceneDelegate.h */,
@@ -135,6 +154,25 @@
 				152465572727E17400390225 /* Info.plist */,
 			);
 			path = AudioDemoUITests;
+			sourceTree = "<group>";
+		};
+		152465662727E18D00390225 /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				152465672727E1B800390225 /* BHAudioHandle.h */,
+				152465682727E1B800390225 /* BHAudioHandle.m */,
+				1524656D2727E1ED00390225 /* BHAudioCapture.h */,
+				1524656E2727E1ED00390225 /* BHAudioCapture.m */,
+				152465732727E20A00390225 /* BHAudioDecoder.h */,
+				152465742727E20A00390225 /* BHAudioDecoder.m */,
+				152465792727E22100390225 /* BHAudioEncoder.h */,
+				1524657A2727E22100390225 /* BHAudioEncoder.m */,
+				152465822727FCA900390225 /* BHAudioConfigModel.h */,
+				152465832727FCA900390225 /* BHAudioConfigModel.m */,
+				15243C1C282A156800F7BBEE /* BHAudioStreamPlayer.h */,
+				15243C1D282A156800F7BBEE /* BHAudioStreamPlayer.m */,
+			);
+			path = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -268,8 +306,14 @@
 			files = (
 				152465362727E17100390225 /* ViewController.m in Sources */,
 				152465302727E17100390225 /* AppDelegate.m in Sources */,
+				152465752727E20A00390225 /* BHAudioDecoder.m in Sources */,
 				152465412727E17300390225 /* main.m in Sources */,
+				1524657B2727E22100390225 /* BHAudioEncoder.m in Sources */,
+				15243C1E282A156800F7BBEE /* BHAudioStreamPlayer.m in Sources */,
 				152465332727E17100390225 /* SceneDelegate.m in Sources */,
+				152465842727FCA900390225 /* BHAudioConfigModel.m in Sources */,
+				152465692727E1B800390225 /* BHAudioHandle.m in Sources */,
+				1524656F2727E1ED00390225 /* BHAudioCapture.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

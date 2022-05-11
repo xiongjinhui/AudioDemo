@@ -62,5 +62,9 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>我要用你的麦克风玩玩</string>
+	<key>UIFileSharingEnabled</key>
+	<true/>
 </dict>
 </plist>

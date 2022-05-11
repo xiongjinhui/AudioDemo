@@ -6,6 +6,8 @@
 //
 
 #import "ViewController.h"
+#import "BHAudioHandle.h"
+#import "BHAudioCapture.h"
 
 @interface ViewController ()
 
@@ -15,8 +17,18 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
+    [BHAudioCapture checkMicrophoneAuth];
 }
 
+- (IBAction)startAction:(UIButton *)sender {
+    [[BHAudioHandle shareManager] start];
+}
+- (IBAction)stopAction:(UIButton *)sender {
+    [[BHAudioHandle shareManager] stop];
+}
+- (IBAction)playBtn:(UIButton *)sender {
+    
+    [[BHAudioHandle shareManager] readAudioData];
+}
 
 @end
