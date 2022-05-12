@@ -10,10 +10,13 @@
 #import "BHAudioEncoder.h"
 #import "BHAudioStreamPlayer.h"
 #import <AVFoundation/AVFoundation.h>
+#import "BHAudioDecoder.h"
 
-@interface BHAudioHandle ()<BHAudioCaptureDelegate,BHAudioEncoderDelegate>
+@interface BHAudioHandle ()<BHAudioCaptureDelegate,BHAudioEncoderDelegate, BHAudioDecoderDelegate>
 @property (nonatomic, strong) BHAudioCapture *audioCapture;
 @property (nonatomic, strong) BHAudioEncoder *audioEncoder;
+@property (nonatomic, strong) BHAudioDecoder *audioDecoder;
+
 @property (nonatomic, strong) BHAudioStreamPlayer *player;
 
 @property (nonatomic, strong) NSFileHandle *fileHandle;
@@ -79,6 +82,14 @@
     self.fileHandle = [NSFileHandle fileHandleForWritingAtPath:filePath];
 }
 
+#pragma mark ============ BHAudioDecoderDelegate ==============
+-(void)audioDecoder:(BHAudioDecoder *)decode pcmData:(NSData *)data{
+    [self.player audioPlayWithData:data];
+}
+
+-(void)audioDecoder:(BHAudioDecoder *)decoder error:(NSError *)error {
+    NSLog(@"音频解码错误：%@",error);
+}
 #pragma mark ============ BHAudioEncoderDelegate ==============
 
 -(void)audioEncoder:(BHAudioEncoder *)encoder pcmData:(NSData *)data{
@@ -90,6 +101,10 @@
     NSLog(@"音频编码AAC数据：%@",data.description);
     [self.fileHandle seekToEndOfFile];
     [self.fileHandle writeData:data];
+    
+//    [self.audioDecoder decodeAudioAACData:data];
+    
+
 }
 
 -(void)audioEncoder:(BHAudioEncoder *)encoder encodeError:(NSError *)error{
@@ -99,8 +114,8 @@
 #pragma mark ============ BHAudioCaptureDelegate ==============
 -(void)audioCapture:(BHAudioCapture *)capture sampleBuffer:(CMSampleBufferRef)buffer {
     NSLog(@"音频采集数据:%p",buffer);
-//    [self.audioEncoder audioAACEncodeWithSampleBuffer:buffer needADTS:YES];
-    [self.audioEncoder audioPCMDataWithSampleBuffer:buffer];
+    [self.audioEncoder audioAACEncodeWithSampleBuffer:buffer needADTS:YES];
+//    [self.audioEncoder audioPCMDataWithSampleBuffer:buffer];
     
     
 }
@@ -129,6 +144,13 @@
         _audioEncoder.delegate = self;
     }
     return _audioEncoder;
+}
+
+-(BHAudioDecoder *)audioDecoder{
+    if (!_audioDecoder) {
+        _audioDecoder = [[BHAudioDecoder alloc] initWithConfig:[BHAudioConfigModel defaultConfig]];
+    }
+    return _audioDecoder;
 }
 
 @end

@@ -10,6 +10,13 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "BHAudioConfigModel.h"
 
+typedef struct {
+    char *data;
+    UInt32 size;
+    UInt32 channelCount;
+    AudioStreamPacketDescription packetDesc;
+} BHAudioUserData;
+
 @interface BHAudioDecoder ()
 
 @property (nonatomic, strong) dispatch_queue_t decodeQueue;//编码队列
@@ -28,6 +35,29 @@
 
 @implementation BHAudioDecoder
 
+
+//解码回调函数
+static OSStatus AudioDecoderConverterComplexInputDataProc(AudioConverterRef inAudioConverter, UInt32 *ioNumberDataPackets, AudioBufferList *ioData, AudioStreamPacketDescription **outDataPacketDescription, void *inUserData){
+    BHAudioUserData *audioDecoder = (BHAudioUserData *)inUserData;
+    if (audioDecoder->size == 0) {
+        ioNumberDataPackets = 0;
+        return -1;
+    }
+    
+    //开始填充数据
+    *outDataPacketDescription = &audioDecoder->packetDesc;
+    (*outDataPacketDescription)[0].mStartOffset = 0;
+    (*outDataPacketDescription)[0].mDataByteSize = audioDecoder->size;
+    (*outDataPacketDescription)[0].mVariableFramesInPacket = 0;
+    //
+    ioData->mBuffers[0].mData = audioDecoder->data;
+    ioData->mBuffers[0].mNumberChannels = audioDecoder->channelCount;
+    ioData->mBuffers[0].mDataByteSize = audioDecoder->size;
+    
+    return noErr;
+}
+
+
 -(instancetype)initWithConfig:(BHAudioConfigModel *)config{
     if (self = [super init]) {
         
@@ -43,11 +73,66 @@
         AudioStreamPacketDescription desc = {0};
         _packetDesc = &desc;
         
-        
+        [self setupDecoder];
     }
     return self;
 }
 
+
+-(void)decodeAudioAACData:(NSData *)aacData{
+    if (!_audioConverter) {
+        return;
+    }
+
+    dispatch_async(_decodeQueue, ^{
+        //记录AAC数据作为参数传入解码函数
+        BHAudioUserData userData = {0};
+        userData.channelCount = (UInt32)self->_config.channelCount;
+        userData.size = (UInt32)aacData.length;
+        userData.data = (char *)aacData.bytes;
+        userData.packetDesc.mDataByteSize = (UInt32)aacData.length;
+        userData.packetDesc.mStartOffset = 0;
+        userData.packetDesc.mVariableFramesInPacket = 0;
+        
+        //输出的 pcm
+        UInt32 pcmBufferSize = (UInt32)(self->_config.channelCount * 2048);
+        
+        //开辟pcm数据空间
+        char *pcmBuffer = malloc(pcmBufferSize);
+        memset(pcmBuffer, 0, pcmBufferSize);
+        
+        //pcmBuffer 转成 bufferList
+        AudioBufferList outAudioBufferList = {0};
+        outAudioBufferList.mNumberBuffers = 1;
+        outAudioBufferList.mBuffers[0].mDataByteSize = pcmBufferSize;
+        outAudioBufferList.mBuffers[0].mNumberChannels = (UInt32)self->_config.channelCount;
+        outAudioBufferList.mBuffers[0].mData = pcmBuffer;
+        
+        
+        AudioStreamPacketDescription outputPacketDesc = {0};
+        
+        UInt32 pcmDataPacketSize = 1024;
+        
+       OSStatus status =  AudioConverterFillComplexBuffer(_audioConverter, AudioDecoderConverterComplexInputDataProc, &userData, &pcmDataPacketSize, &outAudioBufferList, &outputPacketDesc);
+        if (status != noErr) {
+            NSError *error = [[NSError alloc] initWithDomain:NSOSStatusErrorDomain code:status userInfo:nil];
+            [self happendError:error];
+            return;
+        }
+        
+        //如果获取到了数据，则回调
+        if (outAudioBufferList.mBuffers[0].mDataByteSize > 0) {
+            NSData *pcmData = [[NSData alloc] initWithBytes:outAudioBufferList.mBuffers[0].mData length:outAudioBufferList.mBuffers[0].mDataByteSize];
+            dispatch_async(_callbackQueue, ^{
+                if ([self.delegate respondsToSelector:@selector(audioDecoder:pcmData:)]) {
+                    [self.delegate audioDecoder:self pcmData:pcmData];
+                }
+            });
+        }
+
+        free(pcmBuffer);
+    });
+}
 
 -(void)setupDecoder{
     //输出参数pcm
@@ -135,7 +220,6 @@
         }
     }
     
-    
     return nil;
 }
 
@@ -145,5 +229,12 @@
     }
 }
 
+
+-(void)dealloc{
+    if (_audioConverter) {
+        AudioConverterDispose(_audioConverter);
+        _audioConverter = NULL;
+    }
+}
 
 @end
